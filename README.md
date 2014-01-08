@@ -1,6 +1,8 @@
 # Adapter::Sqlite3
 
-TODO: Write a gem description
+Sqlite support for [https://github.com/jnunemaker/adapter](https://github.com/jnunemaker/adapter)
+
+Adapted from the sqlite support in [https://github.com/minad/moneta](https://github.com/minad/moneta).
 
 ## Installation
 
@@ -18,7 +20,40 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Usage is pretty simple:
+```
+require 'adapter/sqlite3'
+
+client = ::SQLite3::Database.new('db/kv.sqlite3')
+
+adapter = Adapter[:sqlite3].new(client)
+adapter.write('foo', 'bar')
+p adapter.read('foo')
+```
+
+Or under the hood in [https://github.com/jnunemaker/toystore](https://github.com/jnunemaker/toystore):
+```
+require 'pp'
+require 'adapter/sqlite3'
+require 'toystore'
+
+class User
+  include Toy::Store
+  adapter :sqlite3, ::SQLite3::Database.new('db/kv.sqlite3')
+
+  attribute :name, String
+end
+
+ids = []
+
+user = User.create(:name => 'John')
+
+pp user
+pp User.read(user.id)
+
+user.destroy
+pp User.read(user.id)
+```
 
 ## Contributing
 
