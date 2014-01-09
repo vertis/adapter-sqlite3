@@ -23,4 +23,5 @@ Gem::Specification.new do |spec|
   
   spec.add_dependency "adapter", "~> 0.7.0"
   spec.add_dependency "sqlite3", "~> 1.3.8"
+  spec.add_dependency "json", "~> 1.8.1"
 end

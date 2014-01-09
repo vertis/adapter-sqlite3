@@ -1,5 +1,6 @@
 require "adapter"
 require "sqlite3"
+require "json"
 
 module Adapter
   module Sqlite3
@@ -10,12 +11,12 @@ module Adapter
     def read(key, options = nil)
       do_setup
       rows = @select.execute!(key)
-      rows.empty? ? nil : rows.first.first
+      rows.empty? ? nil : JSON.parse(rows.first.first)
     end
 
     def write(key, attributes, options = nil)
       do_setup
-      @replace.execute!(key, attributes)
+      @replace.execute!(key, JSON.generate(attributes))
       attributes
     end
 
